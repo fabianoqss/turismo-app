@@ -19,7 +19,7 @@ func (tc *TripController) DeleteTrip(context *gin.Context) {
 	}
 
 	touristID := context.GetInt64("touristID")
-	trip, err := tc.repo.GetTripByID(tripID)
+	trip, err := tc.repo.GetTripByID(tripID, touristID)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "could not fetch the trip"})
 		return

@@ -17,12 +17,20 @@ func (tc *TripController) GetTripByID(context *gin.Context) {
 		return
 	} 
 
-	trip, err := tc.repo.GetTripByID(tripID)
+	touristID := context.GetInt64("touristID")
+
+	trip, err := tc.repo.GetTripByID(tripID, touristID)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch the trip info"})
 		log.Printf("error: %v", err)
 		return
 	}
+
+	if int64(trip.TouristID) != touristID {
+		context.JSON(http.StatusForbidden, gin.H{"message": "forbidden"})
+		return
+	}
+
 	context.JSON(http.StatusOK, trip)
 }
 

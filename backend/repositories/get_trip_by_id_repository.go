@@ -6,9 +6,9 @@ import (
 )
 
 
-func (r *tripRepositoryImpl) GetTripByID(id int64) (*models.Trip, error) {
- 	query := "SELECT * FROM trip WHERE id = ?"
-	row := db.DB.QueryRow(query, id)
+func (r *tripRepositoryImpl) GetTripByID(id int64, touristID int64) (*models.Trip, error) {
+	query := "SELECT * FROM trip WHERE id = ? AND tourist_id = ?"
+	row := db.DB.QueryRow(query, id, touristID)
 
 		var trip models.Trip
 		err := row.Scan(

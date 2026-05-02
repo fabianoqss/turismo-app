@@ -116,7 +116,7 @@ export default function Passaporte() {
 
         {/* Botão voltar */}
         <button
-          onClick={() => navigate('/Perfilcv.')}
+          onClick={() => navigate('/Perfil')}
           style={{
             backgroundColor: '#fff',
             color: '#00cc22',

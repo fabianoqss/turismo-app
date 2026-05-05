@@ -8,6 +8,7 @@ import (
 	"projeto_turismo_jp/routes"
 	"projeto_turismo_jp/server"
 	"projeto_turismo_jp/websocket"
+	"github.com/gin-contrib/cors"
 
 	_ "projeto_turismo_jp/docs"
 
@@ -44,6 +45,13 @@ func main() {
 	go hub.Run()
 
 	server := server.SetupServer()
+
+	server.Use(cors.New(cors.Config{
+    AllowOrigins:     []string{"http://localhost:3000"},
+    AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+    AllowHeaders:     []string{"Authorization", "Content-Type"},
+    AllowCredentials: true,
+}))
 
 	//Data layer
 	touristRepo := repositories.NewTouristRepository(db.DB)

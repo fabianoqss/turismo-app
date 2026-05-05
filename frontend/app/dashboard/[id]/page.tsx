@@ -124,7 +124,7 @@ export default function TripPage() {
                 <span style={{ fontSize: '18px', fontFamily: "'DM Serif Display', serif", color: 'var(--text-primary)' }}>
                   {String(trip.lodging_location || '—')}
                 </span>
-                {trip.status && (
+                {Boolean(trip.status) && (
                   <span style={{
                     fontSize: '12px', padding: '4px 10px', borderRadius: '100px',
                     background: statusColors[String(trip.status)] || 'rgba(255,255,255,0.08)',

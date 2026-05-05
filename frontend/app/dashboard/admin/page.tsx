@@ -97,7 +97,7 @@ export default function AdminPage() {
           {trips && trips.length > 0 && (
             <div style={{ display: 'grid', gap: '10px' }}>
               {trips.map((trip, i) => {
-                const t = trip as Record<string, unknown>;
+                const t = trip as Record<string, string>;
                 const status = String(t.status || 'planned');
                 const sc = statusColors[status] || { bg: 'rgba(255,255,255,0.06)', text: 'var(--text-secondary)' };
                 return (

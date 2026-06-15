@@ -104,3 +104,83 @@ export async function getAllLogs() {
   if (!res.ok) throw new Error(data.error || 'Unauthorized');
   return data;
 }
+
+export async function getRoteiros(params?: { search?: string; category?: string; location?: string }) {
+  const query = new URLSearchParams();
+  if (params?.search) query.set('search', params.search);
+  if (params?.category) query.set('category', params.category);
+  if (params?.location) query.set('location', params.location);
+  const qs = query.toString();
+  const res = await fetch(`${BASE}/roteiros${qs ? `?${qs}` : ''}`, { headers: authHeaders() });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Failed to fetch roteiros');
+  return data;
+}
+
+export async function getRecommendations() {
+  const res = await fetch(`${BASE}/tourist/recommendations`, { headers: authHeaders() });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Failed to fetch recommendations');
+  return data;
+}
+
+export async function getRoteiroById(id: string) {
+  const res = await fetch(`${BASE}/get_roteiro_by_id/${id}`, { headers: authHeaders() });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Roteiro not found');
+  return data;
+}
+
+export async function createRoteiro(roteiro: {
+  name: string;
+  category: string;
+  description: string;
+  location: string;
+  rating?: number;
+  latitude?: number;
+  longitude?: number;
+}) {
+  const res = await fetch(`${BASE}/roteiro`, {
+    method: 'POST',
+    headers: authHeaders(),
+    body: JSON.stringify(roteiro),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Failed to create roteiro');
+  return data;
+}
+
+export async function getRoteiroReviews(id: string) {
+  const res = await fetch(`${BASE}/roteiro/${id}/reviews`, { headers: authHeaders() });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Failed to fetch reviews');
+  return data;
+}
+
+export async function createRoteiroReview(id: string, review: { rating: number; comment: string }) {
+  const res = await fetch(`${BASE}/roteiro/${id}/review`, {
+    method: 'POST',
+    headers: authHeaders(),
+    body: JSON.stringify(review),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Failed to submit review');
+  return data;
+}
+
+export async function createCheckin(id: string) {
+  const res = await fetch(`${BASE}/roteiro/${id}/checkin`, {
+    method: 'POST',
+    headers: authHeaders(),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Failed to check in');
+  return data;
+}
+
+export async function getBadges() {
+  const res = await fetch(`${BASE}/tourist/badges`, { headers: authHeaders() });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Failed to fetch badges');
+  return data;
+}

@@ -53,6 +53,9 @@ export default function AdminPage() {
           background: 'rgba(232,160,71,0.12)', color: 'var(--accent)',
           border: '1px solid rgba(232,160,71,0.2)', fontWeight: '500',
         }}>admin only</span>
+        <span style={{ flex: 1 }} />
+        <Link href="/dashboard/roteiros" style={{ fontSize: '14px', color: 'var(--text-muted)', textDecoration: 'none' }}>Roteiros</Link>
+        <Link href="/dashboard/map" style={{ fontSize: '14px', color: 'var(--text-muted)', textDecoration: 'none' }}>Map</Link>
       </nav>
 
       <div style={{ maxWidth: '780px', margin: '0 auto', padding: '40px 24px' }}>
@@ -70,10 +73,9 @@ export default function AdminPage() {
         }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '20px' }}>
             <div>
-              <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '22px', color: 'var(--text-primary)', marginBottom: '4px' }}>
+              <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '22px', color: 'var(--text-primary)' }}>
                 All trips
               </h2>
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: "'DM Mono', monospace" }}>GET /admin/get_all_trips</p>
             </div>
             <button onClick={fetchTrips} disabled={loadingTrips} style={{
               padding: '9px 18px', fontSize: '13px', fontWeight: '500',
@@ -142,10 +144,9 @@ export default function AdminPage() {
         }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '20px' }}>
             <div>
-              <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '22px', color: 'var(--text-primary)', marginBottom: '4px' }}>
+              <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '22px', color: 'var(--text-primary)' }}>
                 System logs
               </h2>
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: "'DM Mono', monospace" }}>GET /admin/get_all_logs</p>
             </div>
             <button onClick={fetchLogs} disabled={loadingLogs} style={{
               padding: '9px 18px', fontSize: '13px', fontWeight: '500',

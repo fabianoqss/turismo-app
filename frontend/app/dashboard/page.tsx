@@ -1,8 +1,16 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { createTrip, clearToken } from '@/lib/api';
+import { createTrip, clearToken, getBadges } from '@/lib/api';
+
+type Badge = {
+  code: string;
+  name: string;
+  description: string;
+  icon: string;
+  earned: boolean;
+};
 
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '11px 14px', fontSize: '14px',
@@ -29,6 +37,14 @@ export default function DashboardPage() {
   const [isError, setIsError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [lookupId, setLookupId] = useState('');
+  const [badges, setBadges] = useState<Badge[]>([]);
+  const [badgesError, setBadgesError] = useState('');
+
+  useEffect(() => {
+    getBadges()
+      .then(data => setBadges(data ?? []))
+      .catch(err => setBadgesError(err instanceof Error ? err.message : 'Error'));
+  }, []);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
@@ -78,6 +94,8 @@ export default function DashboardPage() {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
           <Link href="/dashboard" style={{ ...navLink, color: 'var(--accent)' }}>Trips</Link>
+          <Link href="/dashboard/roteiros" style={navLink}>Roteiros</Link>
+          <Link href="/dashboard/map" style={navLink}>Map</Link>
           <Link href="/dashboard/admin" style={navLink}>Admin</Link>
           <button onClick={logout} style={{
             ...navLink, background: 'none', border: 'none', cursor: 'pointer',
@@ -96,14 +114,48 @@ export default function DashboardPage() {
           <p style={{ color: 'var(--text-secondary)', fontSize: '15px' }}>Manage your travel records</p>
         </div>
 
+        {/* My Badges */}
+        <div style={{
+          background: 'var(--bg-card)', border: '1px solid var(--border)',
+          borderRadius: '16px', padding: '24px', marginBottom: '20px',
+        }}>
+          <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '20px', color: 'var(--text-primary)', marginBottom: '16px' }}>
+            My Badges
+          </h2>
+
+          {badgesError && (
+            <div style={{ padding: '12px 14px', background: 'var(--danger-bg)', border: '1px solid rgba(224,82,82,0.2)', borderRadius: '10px', fontSize: '13px', color: 'var(--danger)' }}>
+              {badgesError}
+            </div>
+          )}
+
+          {!badgesError && (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '12px' }}>
+              {badges.map(badge => (
+                <div key={badge.code} style={{
+                  padding: '14px', borderRadius: '12px', textAlign: 'center',
+                  border: `1px solid ${badge.earned ? 'var(--accent)' : 'var(--border)'}`,
+                  background: badge.earned ? 'rgba(124,207,136,0.08)' : 'var(--bg-input)',
+                  opacity: badge.earned ? 1 : 0.4,
+                }}>
+                  <div style={{ fontSize: '28px', marginBottom: '8px' }}>{badge.icon}</div>
+                  <div style={{ fontSize: '13px', fontWeight: '500', color: 'var(--text-primary)', marginBottom: '4px' }}>
+                    {badge.name}
+                  </div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                    {badge.description}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         {/* Lookup card */}
         <div style={{
           background: 'var(--bg-card)', border: '1px solid var(--border)',
           borderRadius: '16px', padding: '24px', marginBottom: '20px',
         }}>
-          <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: "'DM Mono', monospace", marginBottom: '16px' }}>
-            GET /get_trip_by_id/:id
-          </p>
           <div style={{ display: 'flex', gap: '10px' }}>
             <input
               type="number" placeholder="Enter trip ID"
@@ -132,10 +184,9 @@ export default function DashboardPage() {
           borderRadius: '16px', padding: '28px',
         }}>
           <div style={{ marginBottom: '24px' }}>
-            <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '22px', color: 'var(--text-primary)', marginBottom: '4px' }}>
+            <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '22px', color: 'var(--text-primary)' }}>
               New trip
             </h2>
-            <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: "'DM Mono', monospace" }}>POST /trip</p>
           </div>
 
           <form onSubmit={handleCreate}>

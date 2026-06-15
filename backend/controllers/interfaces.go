@@ -40,3 +40,39 @@ func NewLogController(repo repositories.LogRepository) *LogController {
 	}
 }
 
+type RoteiroController struct {
+	repo repositories.RoteiroRepository
+	hub *websocket.Hub
+}
+
+func NewRoteiroController(repo repositories.RoteiroRepository, hub *websocket.Hub) *RoteiroController {
+	return &RoteiroController{
+		repo: repo,
+		hub: hub,
+	}
+}
+
+type ReviewController struct {
+	repo repositories.ReviewRepository
+	hub *websocket.Hub
+}
+
+func NewReviewController(repo repositories.ReviewRepository, hub *websocket.Hub) *ReviewController {
+	return &ReviewController{
+		repo: repo,
+		hub: hub,
+	}
+}
+
+type CheckinController struct {
+	repo repositories.CheckinRepository
+	hub *websocket.Hub
+}
+
+func NewCheckinController(repo repositories.CheckinRepository, hub *websocket.Hub) *CheckinController {
+	return &CheckinController{
+		repo: repo,
+		hub: hub,
+	}
+}
+

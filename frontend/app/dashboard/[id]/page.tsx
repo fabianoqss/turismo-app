@@ -90,6 +90,9 @@ export default function TripPage() {
         <span style={{ fontSize: '14px', color: 'var(--text-primary)', fontFamily: "'DM Mono', monospace" }}>
           Trip #{id}
         </span>
+        <span style={{ flex: 1 }} />
+        <Link href="/dashboard/roteiros" style={{ fontSize: '14px', color: 'var(--text-muted)', textDecoration: 'none' }}>Roteiros</Link>
+        <Link href="/dashboard/map" style={{ fontSize: '14px', color: 'var(--text-muted)', textDecoration: 'none' }}>Map</Link>
       </nav>
 
       <div style={{ maxWidth: '680px', margin: '0 auto', padding: '40px 24px' }}>
@@ -101,9 +104,6 @@ export default function TripPage() {
 
         {/* Fetch */}
         <div style={sectionCard}>
-          <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: "'DM Mono', monospace", marginBottom: '16px' }}>
-            GET /get_trip_by_id/{id}
-          </p>
           <button onClick={handleFetch} disabled={fetching} style={{
             padding: '10px 20px', fontSize: '14px', fontWeight: '500',
             background: 'rgba(240,237,232,0.06)', border: '1px solid var(--border)',
@@ -149,8 +149,7 @@ export default function TripPage() {
 
         {/* Review */}
         <div style={sectionCard}>
-          <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '20px', color: 'var(--text-primary)', marginBottom: '4px' }}>Add review</h2>
-          <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: "'DM Mono', monospace", marginBottom: '20px' }}>PUT /add_trip_review/{id}</p>
+          <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '20px', color: 'var(--text-primary)', marginBottom: '20px' }}>Add review</h2>
           <form onSubmit={handleReview}>
             <div style={{ marginBottom: '16px' }}>
               <label style={labelStyle}>Your review</label>
@@ -179,8 +178,7 @@ export default function TripPage() {
 
         {/* Delete */}
         <div style={{ ...sectionCard, borderColor: 'rgba(224,82,82,0.15)' }}>
-          <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '20px', color: 'var(--danger)', marginBottom: '4px' }}>Delete trip</h2>
-          <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontFamily: "'DM Mono', monospace", marginBottom: '20px' }}>DELETE /delete_trip/{id}</p>
+          <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '20px', color: 'var(--danger)', marginBottom: '20px' }}>Delete trip</h2>
           <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '16px' }}>
             This action is permanent and cannot be undone.
           </p>

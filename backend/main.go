@@ -57,16 +57,25 @@ func main() {
 	touristRepo := repositories.NewTouristRepository(db.DB)
 	tripRepo := repositories.NewTripRepository(db.DB)
 	logRepo := repositories.NewlogRepository(db.DB)
+	roteiroRepo := repositories.NewRoteiroRepository(db.DB)
+	reviewRepo := repositories.NewReviewRepository(db.DB)
+	checkinRepo := repositories.NewCheckinRepository(db.DB)
 
 	//http layer
 	touristController := controllers.NewTouristController(touristRepo, hub)
 	tripController := controllers.NewTripController(tripRepo, hub)
 	logController := controllers.NewLogController(logRepo)
+	roteiroController := controllers.NewRoteiroController(roteiroRepo, hub)
+	reviewController := controllers.NewReviewController(reviewRepo, hub)
+	checkinController := controllers.NewCheckinController(checkinRepo, hub)
 
 	deps := &routes.Dependencies{
 		TouristController: touristController,
 		TripController: tripController,
 		LogController: logController,
+		RoteiroController: roteiroController,
+		ReviewController: reviewController,
+		CheckinController: checkinController,
 	}
 
 	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

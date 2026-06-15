@@ -16,7 +16,7 @@ export default function AdminPage() {
     setLoadingTrips(true); setTripsError('');
     try {
       const data = await getAllTrips();
-      setTrips(Array.isArray(data) ? data : [data]);
+      setTrips(Array.isArray(data) ? data : []);
     } catch (err: unknown) {
       setTripsError(err instanceof Error ? err.message : 'Error');
     } finally { setLoadingTrips(false); }
@@ -26,7 +26,7 @@ export default function AdminPage() {
     setLoadingLogs(true); setLogsError('');
     try {
       const data = await getAllLogs();
-      setLogs(Array.isArray(data) ? data : [data]);
+      setLogs(Array.isArray(data) ? data : []);
     } catch (err: unknown) {
       setLogsError(err instanceof Error ? err.message : 'Error');
     } finally { setLoadingLogs(false); }

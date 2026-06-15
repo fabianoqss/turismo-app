@@ -14,8 +14,8 @@ func (r *tripRepositoryImpl) GetAllTrips() ([]models.Trip, error) {
 	}
 	defer rows.Close()
 
-	var trips []models.Trip
-	
+	trips := []models.Trip{}
+
 	for rows.Next() {
 		var trip models.Trip
 		err := rows.Scan(

@@ -14,7 +14,7 @@ func (r *logRepositoryImpl) GetAllLogs() ([]models.Notification, error) {
 	}
 	defer rows.Close()
 
-	var logs []models.Notification
+	logs := []models.Notification{}
 
 	for rows.Next() {
 		var log models.Notification
